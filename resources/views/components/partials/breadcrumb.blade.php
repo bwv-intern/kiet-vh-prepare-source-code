@@ -1,13 +1,17 @@
-<div class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Dashboard v1</li>
-                </ol>
-            </div>
-            <div class="col-sm-6"></div>
-        </div>
-    </div>
-</div>
+<!-- breadcrumb.blade.php -->
+@props([
+    'breadcrumbLinks'
+])
+<ol class="breadcrumb">
+    @if ($breadcrumbLinks)
+        @foreach($breadcrumbLinks as $index => $link)
+            <li class="breadcrumb-item {{ $index === count($breadcrumbLinks) - 1 ? 'active' : '' }}">
+                @if($link['url'] != '')
+                    <a href="{{ $link['url'] }}">{{ $link['name'] }}</a>
+                @else
+                    {{ $link['name'] }}
+                @endif
+            </li>
+        @endforeach
+    @endif
+</ol>

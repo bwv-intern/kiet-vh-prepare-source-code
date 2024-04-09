@@ -15,12 +15,15 @@ class CreateUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('user', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('email', 255);
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('email', 50)->unique();
             $table->string('password', 255);
-            $table->string('name', 100);
-            $table->tinyInteger('user_flag');
+            $table->string('name', 50);
+            $table->tinyInteger('user_flg')->default(1);
+            $table->date('date_of_birth')->nullable();
+            $table->string('phone', 20)->nullable();
+            $table->text('address')->nullable();
             $this->commonColumns($table);
             $this->commonCharset($table);
         });
@@ -33,6 +36,6 @@ class CreateUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user');
+        Schema::dropIfExists('users');
     }
 }

@@ -9,6 +9,7 @@ use App\Libs\ConfigUtil;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -25,6 +26,9 @@ class AuthController extends Controller
      */
     public function login()
     {
+        if(Auth::check()) {
+            return redirect()->route('admin.user.search');
+        }
         return view('screens.auth.login');
     }
 
@@ -34,12 +38,30 @@ class AuthController extends Controller
     public function handleLogin(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
-        if ($this->authService->handleLogin($credentials)) {
-            session()->regenerate();
-            return redirect()->intended(route('top.index'));
+        $user = $this->authService->handleLogin($credentials);
+
+        if ($user != null && $user->user_flg != 1) {
+            Auth::login($user);
+            return redirect()->route('admin.top.index');
         } else {
-            return redirect()->back()->withInput()->withErrors(ConfigUtil::getMessage('ECL019'));
+            if ($user == null) {
+                return $this->handleInvalidCredentials($credentials);
+            } elseif ($user->user_flg == 1) {
+                return $this->handleUserFlagError();
+            }
         }
+    }
+
+
+    private function handleInvalidCredentials($credentials)
+    {
+        Session::flash('credentials', $credentials);
+        return redirect()->back()->withInput()->withErrors(ConfigUtil::getMessage('E010'));
+    }
+
+    private function handleUserFlagError()
+    {
+        abort(403);
     }
 
     /**

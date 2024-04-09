@@ -20,18 +20,19 @@ class UserController extends Controller
     /**
      * Render user01 page
      */
-    public function usr01(Request $request)
+    public function search(Request $request)
     {
-        $paramSession = session()->get('usr01.search') ?? [];
-        $users = $this->userRepository->search($paramSession);
-        $users = $this->pagination($users);
-        return view('screens.user.usr01', compact('users', 'paramSession'));
+//        $paramSession = session()->get('usr01.search') ?? [];
+//        $users =  [];
+//        $users = [];
+//        return view('screens.user.usr01', compact('users', 'paramSession'));
+        return view('screens.user.search');
     }
 
     /**
      * Handle user01 page
      */
-    public function handleUsr01(Request $request)
+    public function handleSearch(Request $request)
     {
         $params = $request->only(['user_id', 'user_flag', 'name', 'email']);
         session()->forget('usr01.search');

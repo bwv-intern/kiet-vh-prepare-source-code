@@ -24,7 +24,7 @@
     <x-partials.header />
     <x-partials.menu />
     <div class="content-wrapper">
-        <x-partials.breadcrumb />
+        @yield('breadcumb')
         <section class="content">
             <div class="container-fluid">
                 @if (Session::has('error'))

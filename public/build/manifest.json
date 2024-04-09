@@ -5,17 +5,22 @@
     "src": "resources/css/common.css"
   },
   "resources/js/common.js": {
-    "file": "assets/common-WtfgOreL.js",
+    "file": "assets/common-BCvxDBJH.js",
     "isEntry": true,
     "src": "resources/js/common.js"
   },
   "resources/js/lib/jquery-validation/additional-setting.js": {
-    "file": "assets/additional-setting-Qpmu4YCO.js",
+    "file": "assets/additional-setting-POA8HUnt.js",
     "isEntry": true,
     "src": "resources/js/lib/jquery-validation/additional-setting.js"
   },
+  "resources/js/partials/menu.js": {
+    "file": "assets/menu-cGPRhlXe.js",
+    "isEntry": true,
+    "src": "resources/js/partials/menu.js"
+  },
   "resources/js/screens/auth/login.js": {
-    "file": "assets/login-OJhvnlpR.js",
+    "file": "assets/login-2RqQEJww.js",
     "isEntry": true,
     "src": "resources/js/screens/auth/login.js"
   }

@@ -130,6 +130,18 @@ $.validator.setDefaults({
             error.insertAfter(element);
         }
     },
+    invalidHandler: function (event, validator) {
+        var errors = validator.numberOfInvalids();
+        if (errors) {
+            var firstError = $(validator.errorList[0].element);
+            firstError.focus();
+            $('html, body').animate({
+                scrollTop: firstError.offset().top
+            }, 500);
+        }
+    },
+
+    
 });
 
 //=================================================//

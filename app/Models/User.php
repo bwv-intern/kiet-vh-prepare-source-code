@@ -10,9 +10,16 @@ class User extends Authenticatable
 {
     use ObservantTrait, HasFactory;
 
-    protected $table = 'user';
-
-    protected $primaryKey = 'id';
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'name',
+        'user_flg',
+        'date_of_birth',
+        'phone',
+        'address',
+    ];
 
     /**
      * Indicates if the model should be timestamped.
@@ -43,5 +50,13 @@ class User extends Authenticatable
         'updated_by',
         'deleted_at',
         'deleted_by',
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+        'email_verified_at' => 'datetime',
+        'date_of_birth' => 'date',
     ];
 }
