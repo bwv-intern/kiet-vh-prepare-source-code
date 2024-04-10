@@ -4,9 +4,6 @@ $(document).ready(function () {
     });
 
     $('#formAdd').validate({
-        onfocusout: function(element) {
-           this.element(element);
-       },
        rules: {
            email: {
                required: true,

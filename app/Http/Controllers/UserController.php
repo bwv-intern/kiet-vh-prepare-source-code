@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\AddUserRequest;
+use App\Http\Requests\User\EditUserRequest;
 use App\Http\Requests\User\SearchRequest;
 use App\Libs\ConfigUtil;
 use App\Repositories\UserRepository;
@@ -52,6 +53,26 @@ class UserController extends Controller
     }
 
 
+    public function add()
+    {
+        return view('screens.user.add');
+    }
+
+    public function postAdd(AddUserRequest $request)
+    {
+        $result = $this->userService->create($request);
+        if ($result) {
+            Session::flash('success', ConfigUtil::getMessage('I013'));
+
+            return redirect()->route('admin.user.search');
+        }
+
+        Session::flash('error', ConfigUtil::getMessage('E014'));
+
+        return redirect()->back();
+    }
+
+
     public function edit($id)
     {
         $user = $this->userService->find($id);
@@ -62,20 +83,13 @@ class UserController extends Controller
         return view('screens.user.edit', compact('user'));
     }
 
-    public function add()
+    public function postEdit(EditUserRequest $request)
     {
-        return view('screens.user.add');
-    }
-
-    public function postAdd(AddUserRequest $request)
-    {  
-        $result = $this->userService->create($request);
-        if ($result) {
+        $result = $this->userService->update($request);
+        if($result != null) {
             Session::flash('success', ConfigUtil::getMessage('I013'));
-
             return redirect()->route('admin.user.search');
         }
-
         Session::flash('error', ConfigUtil::getMessage('E014'));
 
         return redirect()->back();

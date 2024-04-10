@@ -11,25 +11,27 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\Yaml\Yaml;
 
-
 class UserService
 {
     protected UserRepository $userRepository;
 
-    public function __construct(UserRepository $userRepository) {
+    public function __construct(UserRepository $userRepository)
+    {
         $this->userRepository = $userRepository;
     }
 
-    public function search(array $params) {
+    public function search(array $params)
+    {
 
         $users = $this->userRepository->search($params);
 
         return $users;
     }
 
-    
 
-    public function create($data) {
+
+    public function create($data)
+    {
         $email = $data['email'];
         $password = $data['password'];
         $name = $data['name'];
@@ -40,7 +42,7 @@ class UserService
 
         $userData = [
             'email' => $email,
-            'password' => $password,
+            'password' => Hash::make($password),
             'name' => $name,
             'user_flg' => $userFlag,
             'date_of_birth' => $dateOfBirth ? Carbon::createFromFormat('Y/m/d', $dateOfBirth)->toDateString() : null,
@@ -48,27 +50,30 @@ class UserService
             'address' => $address,
         ];
 
-        return $this->userRepository->save(null,$userData,true);
+        return $this->userRepository->save(null, $userData, true);
 
     }
 
-    public function find($id) {
+    public function find($id)
+    {
         return $this->userRepository->find($id);
     }
 
-    public function edit($data) {
+    public function update($data)
+    {
+
         $id = $data['id'];
         $email = $data['email'];
-        $fullName = $data['fullName'];
+        $name = $data['name'];
         $newPassword = $data['password'];
-        $userFlag = $data['userFlag'];
+        $userFlag = $data['user_flg'];
         $date_of_birth = $data['dob'] ?? null;
         $phone = $data['phone'] ?? null;
         $address = $data['address'] ?? null;
 
         $userData = [
             'email' => $email,
-            'name' => $fullName,
+            'name' => $name,
             'user_flg' => $userFlag,
             'date_of_birth' => $date_of_birth ? Carbon::createFromFormat('Y/m/d', $date_of_birth)->toDateString() : null,
             'phone' => $phone,
@@ -79,26 +84,30 @@ class UserService
             $userData['password'] = Hash::make($newPassword);
         }
 
-        return $this->userRepository->edit($id, $userData);
+        return $this->userRepository->save($id, $userData, true);
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $founded = $this->userRepository->find($id);
         if ($founded) {
-            return $this->userRepository->delete($id);
+            // return $this->userRepository->delete($id);
         }
         return false;
     }
 
-    public function findByEmail($email) {
+    public function findByEmail($email)
+    {
         return $this->userRepository->findByEmail($email);
     }
 
-    public function insertMany($users) {
+    public function insertMany($users)
+    {
         return $this->userRepository->insertMany($users);
     }
 
-    public function editMany($users) {
+    public function editMany($users)
+    {
         return $this->userRepository->editMany($users);
     }
 
@@ -107,7 +116,8 @@ class UserService
     /*--------------------                  IMPORT CSV                 ---------------------*/
     /*--------------------------------------------------------------------------------------*/
 
-    public function importCsv($filePath) {
+    public function importCsv($filePath)
+    {
         $file = fopen($filePath, 'r');
 
         $headersYaml = $this->getHeaderFromConfigsYAML();
@@ -202,7 +212,8 @@ class UserService
      *
      * @return array The header configuration array.
      */
-    public function getHeaderFromConfigsYAML() {
+    public function getHeaderFromConfigsYAML()
+    {
         // Get Header of YAML
         $yamlContents = Yaml::parse(file_get_contents(base_path('/config/constants/configImportUser.yaml')));
         $headerConfig = [];
@@ -219,7 +230,8 @@ class UserService
      * @param resource $file The file handle of the CSV file.
      * @return array|null The header line as an array, or null if the file is empty.
      */
-    public function getHeaderCSVFile($file) {
+    public function getHeaderCSVFile($file)
+    {
         $headerLine = fgetcsv($file);
 
         return $headerLine;
@@ -232,7 +244,8 @@ class UserService
      * @param array $csvHeader The header array from the CSV file.
      * @return bool True if all CSV headers are present in the YAML headers, false otherwise.
      */
-    public function checkHeader($yamlHeader, $csvHeader) {
+    public function checkHeader($yamlHeader, $csvHeader)
+    {
         foreach ($csvHeader as $header) {
             if (! in_array($header, $yamlHeader)) {
                 return false;
@@ -247,7 +260,8 @@ class UserService
      *
      * @return array The validation rules array.
      */
-    public function getValidation() {
+    public function getValidation()
+    {
         $yamlContents = Yaml::parse(file_get_contents(base_path('/config/constants/configImportUser.yaml')));
         $rules = [];
         foreach ($yamlContents['user_import_csv_configs'] as $key => $value) {
@@ -267,7 +281,8 @@ class UserService
      * @param int $rowIndex The index of the row being validated.
      * @return array An array of validation error messages, or an empty array if validation passes.
      */
-    public function validateRow($row, $rules, $rowIndex) {
+    public function validateRow($row, $rules, $rowIndex)
+    {
         $validator = Validator::make($row, $rules);
 
         $validator->setCustomMessages($this->messages($rowIndex));
@@ -299,7 +314,8 @@ class UserService
         return [];
     }
 
-    public function messages($rowIndex) {
+    public function messages($rowIndex)
+    {
         $messages = [
             'id.max' => "Row {$rowIndex} :" . MessageUtil::getMessage('E002', 'Full Name', '50', ':count'),
 
@@ -329,7 +345,8 @@ class UserService
      *
      * @return array The array of keys from the YAML file.
      */
-    public function getKeyYaml() {
+    public function getKeyYaml()
+    {
         $yamlContents = Yaml::parse(file_get_contents(base_path('/config/constants/configImportUser.yaml')));
         $headerConfig = [];
         foreach ($yamlContents['user_import_csv_configs'] as $key => $value) {

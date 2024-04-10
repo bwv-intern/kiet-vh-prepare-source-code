@@ -30,12 +30,12 @@
     "src": "resources/js/screens/auth/login.js"
   },
   "resources/js/screens/user/add.js": {
-    "file": "assets/add-7g3BOKLl.js",
+    "file": "assets/add-KgccKenk.js",
     "isEntry": true,
     "src": "resources/js/screens/user/add.js"
   },
   "resources/js/screens/user/edit.js": {
-    "file": "assets/edit-w40geAFS.js",
+    "file": "assets/edit-EGfsWhvE.js",
     "isEntry": true,
     "src": "resources/js/screens/user/edit.js"
   },

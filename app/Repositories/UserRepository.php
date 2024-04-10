@@ -70,15 +70,10 @@ class UserRepository extends BaseRepository
 
 
     public function find($id): ?User {
-        try {
-            $user = User::find($id);
-            return $user;
-        } catch (\Exception $e) {
-            abort(500);
-        }
+        return parent::findById($id,false);
     }
 
-    public function  save($id = null, $params, $isFindAll = false){
+    public function  save($id = null,  $params, $isFindAll = false){
         return parent::save($id,$params,$isFindAll);
     }
 

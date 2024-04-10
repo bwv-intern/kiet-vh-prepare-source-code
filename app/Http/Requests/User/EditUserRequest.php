@@ -3,15 +3,12 @@
 namespace App\Http\Requests\User;
 
 use App\Libs\ConfigUtil;
-use App\Rules\CheckCapital1Byte;
-use App\Rules\CheckHiragana2Byte;
-use App\Rules\CheckKatakana2Byte;
 use App\Rules\CheckMailRFC;
 use App\Rules\CheckMaxLength;
 use App\Rules\CheckNumeric;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddUserRequest extends FormRequest
+class EditUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,38 +25,35 @@ class AddUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-                'email' => [
+        $rules = [
+            'email' => [
                         'required',
-                        'unique:users',
-                        new CheckMaxLength("Email", 50),
                         new CheckMailRFC(),
-                     ],
+                        new CheckMaxLength("Email", 50),
+                        'unique:users,email,' . $this->id,
+                       ],
 
-            'name' => [
-                        'required',
-                        new CheckMaxLength("Name", 50),
-                     ],
-
-            'password' => [
-                        'required',
-                        new CheckMaxLength("Password", 255)
-                    ],
-
-                        'repassword' => ['required',
-                        'same:password',
-                        new CheckMaxLength("Re-Password", 255),
-                    ],
-
-            'user_flg' => 'required',
-            'date_of_birth' => 'nullable|date_format:Y/m/d',
-            'phone' => [
-                        'nullable',
-                        new CheckNumeric('Phone'),
-                        new CheckMaxLength('Phone', 20),
+            'name' => [ 'required',
+                            new CheckMaxLength("Name", 50),
                         ],
 
+            'password' => $this->isPasswordUpdateRequested() ? ['required', new CheckMaxLength("Password", 255)] : '',
+
+            'repassword' => $this->isPasswordUpdateRequested() ? ['required','same:password', new CheckMaxLength("Re-password", 255)] : '',
+
+            'user_flg' => ['required',
+                            new CheckNumeric("User Flag"),
+                          ],
+
+            'date_of_birth' => 'nullable|date_format:Y/m/d',
+
+            'phone' => ['nullable',
+                        new CheckMaxLength('Phone', 20),
+                        new CheckNumeric('Phone'),
+                        ],
         ];
+
+        return $rules;
     }
 
     public function messages()
@@ -71,20 +65,20 @@ class AddUserRequest extends FormRequest
 
             'name.required' => ConfigUtil::getMessage('E001', 'Full Name'),
 
-
             'password.required' => ConfigUtil::getMessage('E001', 'Password'),
-
 
             'repassword.required' => ConfigUtil::getMessage('E001', 'Re-password'),
             'repassword.same' => ConfigUtil::getMessage('E011', 'Re-password'),
 
+            'userFlag.required' => ConfigUtil::getMessage('E001', 'User Flag'),
 
-
-            'user_flg.required' => ConfigUtil::getMessage('E001', 'User Flag'),
-
-            'date_of_birth.date_format' => ConfigUtil::getMessage('E012', 'Date of birth', 'date (yyyy/MM/dd)'),
-
+            'date_of_birth.date_format' => ConfigUtil::getMessage('E012', 'Date of birth', 'date (dd/MM/yyyy)'),
 
         ];
+    }
+
+    private function isPasswordUpdateRequested(): bool
+    {
+        return $this->filled('password');
     }
 }
