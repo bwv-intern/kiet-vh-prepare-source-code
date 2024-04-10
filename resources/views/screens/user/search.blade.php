@@ -18,10 +18,10 @@
                 @csrf
                 <div class="row">
                     <div class="col-sm-6">
-                        <x-forms.text-group label="User Name" name="name" :value="$paramSession['name'] ?? old('name')" />
+                        <x-forms.text-group label="Email" name="email" :value="$paramSession['email'] ?? old('email')" />
                     </div>
                     <div class="col-sm-6">
-                        <x-forms.text-group label="Email" name="email" :value="$paramSession['email'] ?? old('email')" />
+                        <x-forms.text-group label="Full Name" name="name" :value="$paramSession['name'] ?? old('name')" />
                     </div>
                 </div>
 
@@ -50,6 +50,8 @@
                 <div class="d-flex justify-content-end m-3 ">
                     <x-button.base label="Search" class="btn btn-secondary m-1" ></x-button.base>
                     <x-button.clear label="Clear" screen="usr01" class="btn btn-secondary m-1"></x-button.clear>
+                    <x-button.base  type="button" label="Export" screen="usr01" class="btn btn-secondary m-1"></x-button.base>
+                    <x-button.base type="button" label="Import" screen="usr01" class="btn btn-secondary m-1"></x-button.base>
                 </div>
             </form>
         </div>
@@ -61,15 +63,11 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="d-flex row justify-content-between align-item-center">
-{{--                                    <h5 class="card-title m-sm-1">--}}
-{{--                                        Showing {{ ($users->currentPage() - 1) * $users->perPage() + 1 }}--}}
-{{--                                        to {{ ($users->currentPage() - 1) * $users->perPage() + $users->count() }}--}}
-{{--                                        of {{ $total }} entries--}}
-{{--                                    </h5>--}}
-
-{{--                                    <div class="card-tools m-sm-1">--}}
-{{--                                        @include('admin.components.paginate')--}}
-{{--                                    </div>--}}
+                                  
+                                   {{ $users->links('common.pagination') }}
+                                   {{-- <div class="card-tools m-sm-1">
+                                       @include('admin.components.paginate')
+                                   </div> --}}
                                 </div>
                             </div>
 

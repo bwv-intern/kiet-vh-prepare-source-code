@@ -12,3 +12,11 @@ $.validator.addMethod('fileExtension', function (value, element, extension) {
 $.validator.addMethod("dateYMD", function (value, element) {
     return this.optional(element) || /^\d{4}\/\d{2}\/\d{2}$/.test(value);
 }, "");
+
+$.validator.addMethod(
+    'dateDMY',
+    function (value, element) {
+        return this.optional(element) || /^\d{2}\/\d{2}\/\d{4}$/.test(value);
+    },
+    'Date of birth format is not correct. Please enter date (dd/MM/yyyy) only.'
+);

@@ -55,7 +55,13 @@ class UserController extends Controller
 
     public function add()
     {
-        return view('screens.user.add');
+        $breadcrumbLinks = [
+            ['url' => route('admin.top.index'), 'name' => 'Top'],
+            ['url' => route('admin.user.search'), 'name' => 'Users'],
+            ['url' => '', 'name' => 'User add'],
+        ];
+
+        return view('screens.user.add', compact('breadcrumbLinks'));
     }
 
     public function postAdd(AddUserRequest $request)
@@ -79,8 +85,12 @@ class UserController extends Controller
         if (! $user) {
             abort(404);
         }
-
-        return view('screens.user.edit', compact('user'));
+        $breadcrumbLinks = [
+            ['url' => route('admin.top.index'), 'name' => 'Top'],
+            ['url' => route('admin.user.search'), 'name' => 'Users'],
+            ['url' => '', 'name' => 'User edit'],
+        ];
+        return view('screens.user.edit', compact('user','breadcrumbLinks'));
     }
 
     public function postEdit(EditUserRequest $request)
