@@ -34,6 +34,6 @@ class CheckMailRFC implements Rule
      * @return string
      */
     public function message() {
-        return ConfigUtil::getMessage('ECL007');
+        return ConfigUtil::getMessage('E004');
     }
 }

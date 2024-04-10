@@ -41,7 +41,7 @@ Route::middleware(['auth', 'role:0'])->group(function () {
 
     Route::get('/admin/user', [UserController::class, 'search'])->name('admin.user.search');
 
-    Route::post('/admin/user', [UserController::class, 'handleSearch'])->name('admin.user.search');
+    Route::post('/admin/user', [UserController::class, 'handleSearch'])->name('admin.user.handleSearch');
 
     Route::get('/admin/user/add', [UserController::class, 'add'])->name('admin.user.add');
     Route::post('/admin/user/add', [UserController::class, 'postAdd'])->name('admin.user.add');

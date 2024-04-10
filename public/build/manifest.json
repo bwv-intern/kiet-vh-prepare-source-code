@@ -14,6 +14,11 @@
     "isEntry": true,
     "src": "resources/js/lib/jquery-validation/additional-setting.js"
   },
+  "resources/js/lib/jquery-validation/my-validation.js": {
+    "file": "assets/my-validation-lf47DxzB.js",
+    "isEntry": true,
+    "src": "resources/js/lib/jquery-validation/my-validation.js"
+  },
   "resources/js/partials/menu.js": {
     "file": "assets/menu-cGPRhlXe.js",
     "isEntry": true,
@@ -23,5 +28,20 @@
     "file": "assets/login-2RqQEJww.js",
     "isEntry": true,
     "src": "resources/js/screens/auth/login.js"
+  },
+  "resources/js/screens/user/add.js": {
+    "file": "assets/add-7g3BOKLl.js",
+    "isEntry": true,
+    "src": "resources/js/screens/user/add.js"
+  },
+  "resources/js/screens/user/edit.js": {
+    "file": "assets/edit-w40geAFS.js",
+    "isEntry": true,
+    "src": "resources/js/screens/user/edit.js"
+  },
+  "resources/js/screens/user/search.js": {
+    "file": "assets/search-mVujtkla.js",
+    "isEntry": true,
+    "src": "resources/js/screens/user/search.js"
   }
 }

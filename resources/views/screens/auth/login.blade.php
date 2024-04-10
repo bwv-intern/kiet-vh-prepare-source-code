@@ -21,7 +21,7 @@
                     </div>
                     <div class="row text-center">
                         <div class="col-12">
-                            <x-button.base type="submit" label="Login" />
+                            <x-button.base type="submit" label="Login" class="btn btn-primary" />
                         </div>
                     </div>
                 </form>

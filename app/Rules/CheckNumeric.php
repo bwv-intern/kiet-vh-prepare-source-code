@@ -7,7 +7,6 @@ use Illuminate\Contracts\Validation\Rule;
 
 class CheckNumeric implements Rule
 {
-
     private $label;
 
     /**
@@ -15,7 +14,8 @@ class CheckNumeric implements Rule
      *
      * @return void
      */
-    public function __construct(string $label) {
+    public function __construct(string $label)
+    {
         $this->label = $label;
     }
 
@@ -26,7 +26,8 @@ class CheckNumeric implements Rule
      * @param  mixed  $value
      * @return bool
      */
-    public function passes($attribute, $value) {
+    public function passes($attribute, $value)
+    {
         return empty($value) || preg_match('/^[0-9]*$/', $value);
     }
 
@@ -35,7 +36,8 @@ class CheckNumeric implements Rule
      *
      * @return string
      */
-    public function message() {
-        return ConfigUtil::getMessage('ECL004', [$this->label]);;
+    public function message()
+    {
+        return ConfigUtil::getMessage('E012', $this->label, 'number');
     }
 }

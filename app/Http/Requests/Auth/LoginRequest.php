@@ -4,7 +4,7 @@ namespace App\Http\Requests\Auth;
 
 use App\Libs\ConfigUtil;
 use Illuminate\Foundation\Http\FormRequest;
-
+use App\Rules\CheckMailRFC;
 class LoginRequest extends FormRequest
 {
     /**
@@ -25,6 +25,7 @@ class LoginRequest extends FormRequest
         return [
             'email' => [
                 'required',
+                new CheckMailRFC(),
             ],
             'password' => [
                 'required',
@@ -39,8 +40,8 @@ class LoginRequest extends FormRequest
      */
     public function messages() {
         return [
-            'email.required' => ConfigUtil::getMessage('ECL001', ['Email']),
-            'password.required' => ConfigUtil::getMessage('ECL001', ['Password']),
+            'email.required' => ConfigUtil::getMessage('E001', 'Email'),
+            'password.required' => ConfigUtil::getMessage('E001', 'Password'),
         ];
     }
 }

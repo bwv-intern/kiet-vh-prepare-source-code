@@ -2,41 +2,82 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Http\Requests\User\AddUserRequest;
+use App\Http\Requests\User\SearchRequest;
+use App\Libs\ConfigUtil;
 use App\Repositories\UserRepository;
 
+use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
+    protected UserService $userService;
     protected UserRepository $userRepository;
-
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, UserService $userService)
     {
         $this->userRepository = $userRepository;
+        $this->userService = $userService;
     }
-
 
     /**
      * Render user01 page
      */
-    public function search(Request $request)
+    public function search(SearchRequest $request)
     {
-//        $paramSession = session()->get('usr01.search') ?? [];
-//        $users =  [];
-//        $users = [];
-//        return view('screens.user.usr01', compact('users', 'paramSession'));
-        return view('screens.user.search');
+        $paramSession = session()->get('user.search') ?? [];
+        $users = $this ->userService -> search($paramSession);
+        $users = $this->pagination($users);
+        return view('screens.user.search', compact('users', 'paramSession'));
     }
 
     /**
      * Handle user01 page
      */
-    public function handleSearch(Request $request)
+    public function handleSearch(SearchRequest $request)
     {
-        $params = $request->only(['user_id', 'user_flag', 'name', 'email']);
-        session()->forget('usr01.search');
-        session()->put('usr01.search', $params);
-        return to_route('user.usr01');
+        $params = $request->only(
+            [   'email',
+                'name',
+                'user_flg',
+                'date_of_birth',
+                'phone',
+            ]
+        );
+
+        session()->forget('user.search');
+        session()->put('user.search', $params);
+        return redirect() ->route('admin.user.search');
+    }
+
+
+    public function edit($id)
+    {
+        $user = $this->userService->find($id);
+        if (! $user) {
+            abort(404);
+        }
+
+        return view('screens.user.edit', compact('user'));
+    }
+
+    public function add()
+    {
+        return view('screens.user.add');
+    }
+
+    public function postAdd(AddUserRequest $request)
+    {  
+        $result = $this->userService->create($request);
+        if ($result) {
+            Session::flash('success', ConfigUtil::getMessage('I013'));
+
+            return redirect()->route('admin.user.search');
+        }
+
+        Session::flash('error', ConfigUtil::getMessage('E014'));
+
+        return redirect()->back();
     }
 }

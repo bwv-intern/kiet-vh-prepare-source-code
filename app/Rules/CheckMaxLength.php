@@ -41,6 +41,6 @@ class CheckMaxLength implements Rule
      * @return string
      */
     public function message() {
-        return ConfigUtil::getMessage('ECL002', [$this->label, $this->max, $this->currentLength]);
+        return ConfigUtil::getMessage('E002', $this->label, $this->max, $this->currentLength);
     }
 }

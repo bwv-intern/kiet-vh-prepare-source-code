@@ -26,16 +26,25 @@ class ConfigUtil
      * @param array $paramArray
      * @return mixed|null
      */
-    public static function getMessage($key, $paramArray = array()) {
+    public static function getMessage($key, ...$params) {
         $message = self::getConfig(self::MESSAGE_DIR, $key);
-        if ($message && is_string($message)) {
-            foreach ($paramArray as $param => $value) {
-                $message = str_replace(sprintf('<%d>', $param), $value, $message);
-            }
-        }
-
+        $message = vsprintf($message, $params);
+        
         return $message;
     }
+
+    // public static function getMessage($code, ...$params) {
+    //     // Get YAML contents
+    //     $yamlContents = Yaml::parse(file_get_contents(base_path('/config/constants/message.yaml')));
+
+    //     // Get message from code
+    //     $message = $yamlContents[$code];
+
+    //     // Replace placeholders with parameters
+    //     $message = vsprintf($message, $params);
+
+    //     return $message;
+    // }
 
     /**
      * Get $key value from common config file
