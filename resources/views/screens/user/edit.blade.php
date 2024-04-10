@@ -1,12 +1,5 @@
 <x-app-layout title="Top">
     @section('breadcumb')
-        @php
-            $breadcrumbLinks = [
-                ['url' => route('admin.top.index'), 'name' => 'Top'],
-                ['url' => route('admin.user.search'), 'name' => 'Users'],
-                ['url' => '', 'name' => 'User edit'],
-            ];
-        @endphp
         <x-partials.breadcrumb :breadcrumbLinks=$breadcrumbLinks />
     @endsection
 
