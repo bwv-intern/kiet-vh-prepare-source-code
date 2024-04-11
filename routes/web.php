@@ -51,7 +51,7 @@ Route::middleware(['auth', 'role:0'])->group(function () {
     Route::post('/admin/user/edit', [UserController::class, 'postEdit'])->name('admin.user.postEdit');
 
 
-    Route::get('/admin/user/delete/{id}', [UserController::class, 'getDelete'])->name('admin.user.delete');
+    Route::get('/admin/user/delete/{id}', [UserController::class, 'doDelete'])->name('admin.user.delete');
 
     Route::post('/admin/user/export', [UserController::class, 'exportCsv'])->name('admin.user.export');
 

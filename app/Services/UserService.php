@@ -91,25 +91,27 @@ class UserService
     {
         $founded = $this->userRepository->find($id);
         if ($founded) {
-            // return $this->userRepository->delete($id);
+             $founded['del_flg'] = 1;
+             $founded -> save();
+             return $founded;
         }
-        return false;
+        return null;
     }
 
-    public function findByEmail($email)
-    {
-        return $this->userRepository->findByEmail($email);
-    }
+    // public function findByEmail($email)
+    // {
+    //     return $this->userRepository->findByEmail($email);
+    // }
 
-    public function insertMany($users)
-    {
-        return $this->userRepository->insertMany($users);
-    }
+    // public function insertMany($users)
+    // {
+    //     return $this->userRepository->insertMany($users);
+    // }
 
-    public function editMany($users)
-    {
-        return $this->userRepository->editMany($users);
-    }
+    // public function editMany($users)
+    // {
+    //     return $this->userRepository->editMany($users);
+    // }
 
 
     /*--------------------------------------------------------------------------------------*/

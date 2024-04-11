@@ -1,5 +1,8 @@
 $( document ).ready(function() {
 
+    var _search = {};
+    _search.handleDeleteForm = handleDeleteForm;
+
     $("#date-of-birth").datepicker({
         dateFormat: 'yy/mm/dd',
     });
@@ -68,4 +71,22 @@ $( document ).ready(function() {
             }
         });
     });
+
+    $('.delete-user').submit(handleDeleteForm);
 });
+
+function handleDeleteForm(event) {
+    event.preventDefault();
+    var deleteUserRoute = $(this).data('add-route');
+
+    var $form = $(this);
+
+    var userId = $form.attr('id').replace('deleteForm_', '');
+
+    var confirmed = confirm("Are you sure you want to delete the record with id " + userId + "?");
+
+    if (!confirmed) {
+        return;
+    }
+    $form.off('submit').submit();
+}

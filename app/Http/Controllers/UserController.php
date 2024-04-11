@@ -10,6 +10,7 @@ use App\Repositories\UserRepository;
 
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
@@ -26,7 +27,7 @@ class UserController extends Controller
      * Render user01 page
      */
     public function search(SearchRequest $request)
-    {   
+    {
         // default search
         $paramsDefault = ["user_flg" => [
                 0 => "0",
@@ -108,6 +109,14 @@ class UserController extends Controller
         }
         Session::flash('error', ConfigUtil::getMessage('E014'));
 
+        return redirect()->back();
+    }
+
+    public function doDelete($id)
+    {
+        if(Auth::id() != $id) {
+            $this -> userService -> delete($id);
+        }
         return redirect()->back();
     }
 }
