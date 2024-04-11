@@ -1,3 +1,4 @@
+
 $( document ).ready(function() {
 
     var _search = {};
@@ -73,11 +74,19 @@ $( document ).ready(function() {
     });
 
     $('.delete-user').submit(handleDeleteForm);
+
+    // turn off loading when downloaded file
+    var checker = window.setInterval(function(){
+        var founded = $.cookie('exported');
+        if (founded) {
+            _common.showLoading(false);
+            $.removeCookie('exported', { path: '/' });
+        }
+    }, 1000);
 });
 
 function handleDeleteForm(event) {
     event.preventDefault();
-    var deleteUserRoute = $(this).data('add-route');
 
     var $form = $(this);
 

@@ -30,9 +30,6 @@
         @yield('breadcumb')
         <section class="content">
             <div class="container-fluid">
-                {{-- @if ($errors->any())
-                    <x-alert :messages="$errors->all()" type="danger" />
-                @endif --}}
                 @if (Session::has('error'))
                     @php
                         $errorType = 'danger';
@@ -75,9 +72,12 @@
     <script src="{{ asset('js/lib/jquery-3.7.1.min.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.13.0-rc.2/jquery-ui.min.js"
         integrity="sha256-RQLbEU539dpygNMsBGZlplus6CkitaLy0btTCHcULpI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="{{ asset('js/lib/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/lib/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('js/lib/jquery-validation/additional-methods.min.js') }}"></script>
+    <script src="{{ asset('js/lib/jquery-validation/jquery.validate.min.js') }}">
+        < /scrip> <
+        script src = "{{ asset('js/lib/jquery-validation/additional-methods.min.js') }}" >
+    </script>
     <script src="{{ asset('js/adminlte.min.js') }}"></script>
     @vite(['resources/js/common.js', 'resources/js/lib/jquery-validation/additional-setting.js'], 'build')
     @vite(['resources/js/common.js', 'resources/js/lib/jquery-validation/my-validation.js'], 'build')

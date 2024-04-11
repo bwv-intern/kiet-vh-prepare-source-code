@@ -28,7 +28,13 @@ class UserService
         return $users;
     }
 
+    public function exportCSV(array $params)
+    {
 
+        $users = $this->userRepository->exportCSV($params);
+        
+        return $users;
+    }
 
     public function create($data)
     {

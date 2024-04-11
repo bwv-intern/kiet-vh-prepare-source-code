@@ -50,7 +50,7 @@
                 <div class="d-flex justify-content-end m-3 ">
                     <x-button.base label="Search" class="btn btn-secondary m-1" ></x-button.base>
                     <x-button.clear label="Clear" screen="user.search" class="btn btn-secondary m-1"></x-button.clear>
-                    <x-button.base  type="button" label="Export" screen="usr01" class="btn btn-secondary m-1"></x-button.base>
+                    <x-button.base  type="submit" name="btnExport" label="Export" screen="usr01" formaction="{{ route('admin.user.search') }}" class="btn btn-secondary m-1"></x-button.base>
                     <x-button.base type="button" label="Import" screen="usr01" class="btn btn-secondary m-1"></x-button.base>
                 </div>
             </form>
@@ -62,12 +62,8 @@
                     @if (count($users) > 0)
                         <div class="card">
                             <div class="card-header">
-                                <div class="d-flex row justify-content-between align-item-center">
-                                  
+                                <div class="d-flex row justify-content-between align-item-center">              
                                    {{ $users->links('common.pagination') }}
-                                   {{-- <div class="card-tools m-sm-1">
-                                       @include('admin.components.paginate')
-                                   </div> --}}
                                 </div>
                             </div>
 

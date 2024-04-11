@@ -11,16 +11,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Controller extends BaseController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    use AuthorizesRequests;
+    use DispatchesJobs;
+    use ValidatesRequests;
 
     /**
      * Handle pagination
      *
      * @param object $query
      */
-    public function pagination($query)
-    {
+    public function pagination($query) {
         $limit = ValueUtil::get('common.pagination_limit');
+
         return $query->paginate($limit)
             ->withQueryString();
     }
@@ -30,14 +32,14 @@ class Controller extends BaseController
      *
      * @return string
      */
-    public function getRouteNamePrevious()
-    {
+    public function getRouteNamePrevious() {
         $prevRequest = app('request')->create(url()->previous());
         try {
             $routeName = app('router')->getRoutes()->match($prevRequest)->getName();
         } catch (NotFoundHttpException $e) {
             return null;
         }
+
         return $routeName;
     }
 }
