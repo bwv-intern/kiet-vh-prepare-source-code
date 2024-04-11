@@ -56,7 +56,7 @@ class UserRepository extends BaseRepository
         }
 
         if (isset($params['date_of_birth'])) {
-            $date = Carbon::createFromFormat('d/m/Y', $params['date_of_birth'])->format('Y-m-d');
+            $date = Carbon::createFromFormat('Y/m/d', $params['date_of_birth'])->format('Y-m-d');
             $query->where('date_of_birth', $date);
         }
 

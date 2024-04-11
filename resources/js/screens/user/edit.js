@@ -16,20 +16,19 @@ $(function () {
                 maxlength: 50
             },
             password: {
-                maxlength: 255,
             },
             repassword: {
                 required: function (element) {
                     return $('#password').val().length > 0;
                 },
-                maxlength: 255,
                 equalTo: "#password",
             },
             user_flg: {
-                required: true
+                required: true,
+                userFlgValidation : true,
             },
             date_of_birth: {
-                dateYMD: true
+                dateYMD: true,
             },
             phone: {
                 number: true,

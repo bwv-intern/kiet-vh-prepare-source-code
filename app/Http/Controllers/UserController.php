@@ -94,7 +94,7 @@ class UserController extends Controller
     }
 
     public function postEdit(EditUserRequest $request)
-    {
+    {  
         $result = $this->userService->update($request);
         if($result != null) {
             Session::flash('success', ConfigUtil::getMessage('I013'));

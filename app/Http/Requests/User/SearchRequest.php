@@ -22,29 +22,23 @@ class SearchRequest extends FormRequest
      */
     public function rules(): array {
         return [
-            'email' => ['nullable','max:50', new CheckMailRFC()],
-            'name' => 'nullable|max:50',
+            'email' => ['nullable', new CheckMailRFC()],
+            'name' => 'nullable',
             'user_flag' => 'nullable|array',
-            'user_flag.*' => 'nullable|integer|between:0,2',
-            'date_of_birth' => ['nullable', 'date_format:d/m/Y'],
-            'phone' => 'nullable|numeric|max:20'
+            'user_flag.*' => 'nullable|integer|in:0,1,2',
+            'date_of_birth' => ['nullable', 'date_format:Y/m/d'],
+            'phone' => 'nullable|numeric',
         ];
     }
 
     public function messages() {
         return [
-            'email.max' => ConfigUtil::getMessage('E002', 'Name', '50', mb_strlen($this)),
  
-            'date_of_birth.date_format' => ConfigUtil::getMessage('E012', 'Date of birth', 'date (dd/MM/yyyy)'),
-        
-            'name.max' => ConfigUtil::getMessage('E002', 'Name', '50', mb_strlen($this)),
-
+            'date_of_birth.date_format' => ConfigUtil::getMessage('E012', 'Date of birth', 'date (yyyy/MM/dd)'),
             'phone.numeric' => ConfigUtil::getMessage('E012', 'Phone', 'number'),
-            'phone.max' => ConfigUtil::getMessage('E002', 'Phone', '20', mb_strlen($this)),
-
-            'user_flag.array' => ConfigUtil::getMessage('E012', 'Date of birth', 'number'),
+            'user_flag.array' => ConfigUtil::getMessage('E012', 'User flag', 'number'),
             'user_flag.*.integer' => ConfigUtil::getMessage('E012', 'User flag', 'number'),
-            'user_flag.*.between' => ConfigUtil::getMessage('E012', 'User flag', 'number'),
+            'user_flag.*.in' => ConfigUtil::getMessage('E012', 'User flag', 'number'),
         ];
     }
 }

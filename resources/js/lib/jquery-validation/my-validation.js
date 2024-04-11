@@ -20,3 +20,6 @@ $.validator.addMethod(
     },
     'Date of birth format is not correct. Please enter date (dd/MM/yyyy) only.'
 );
+$.validator.addMethod('userFlgValidation', function(value, element) {
+    return this.optional(element) || ['0', '1', '2'].indexOf(value) !== -1;
+  }, 'User Flag format is not correct. Please enter number only.');

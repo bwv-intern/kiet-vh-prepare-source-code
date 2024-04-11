@@ -10,6 +10,7 @@ use App\Libs\ConfigUtil;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 
 class AuthController extends Controller
 {
@@ -72,6 +73,7 @@ class AuthController extends Controller
         Auth::logout();
         session()->flush();
         session()->invalidate();
-        return redirect()->route('login');
+        // fix back event from browser
+        return redirect(URL::previous());
     }
 }

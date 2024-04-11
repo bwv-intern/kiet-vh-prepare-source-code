@@ -43,15 +43,13 @@ class AddUserRequest extends FormRequest
 
             'password' => [
                         'required',
-                        new CheckMaxLength("Password", 255)
                     ],
 
-                        'repassword' => ['required',
+            'repassword' => ['required',
                         'same:password',
-                        new CheckMaxLength("Re-Password", 255),
                     ],
 
-            'user_flg' => 'required',
+            'user_flg' => ['required', 'in:0,1,2'],
             'date_of_birth' => 'nullable|date_format:Y/m/d',
             'phone' => [
                         'nullable',
@@ -81,6 +79,7 @@ class AddUserRequest extends FormRequest
 
 
             'user_flg.required' => ConfigUtil::getMessage('E001', 'User Flag'),
+            'user_flag.*.in' => ConfigUtil::getMessage('E012', 'User flag', 'number'),
 
             'date_of_birth.date_format' => ConfigUtil::getMessage('E012', 'Date of birth', 'date (yyyy/MM/dd)'),
 

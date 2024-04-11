@@ -37,12 +37,12 @@ class EditUserRequest extends FormRequest
                             new CheckMaxLength("Name", 50),
                         ],
 
-            'password' => $this->isPasswordUpdateRequested() ? ['required', new CheckMaxLength("Password", 255)] : '',
+            'password' => $this->isPasswordUpdateRequested() ? ['required'] : '',
 
-            'repassword' => $this->isPasswordUpdateRequested() ? ['required','same:password', new CheckMaxLength("Re-password", 255)] : '',
+            'repassword' => $this->isPasswordUpdateRequested() ? ['required','same:password'] : '',
 
             'user_flg' => ['required',
-                            new CheckNumeric("User Flag"),
+                            'in:0,1,2'
                           ],
 
             'date_of_birth' => 'nullable|date_format:Y/m/d',
@@ -71,6 +71,7 @@ class EditUserRequest extends FormRequest
             'repassword.same' => ConfigUtil::getMessage('E011', 'Re-password'),
 
             'userFlag.required' => ConfigUtil::getMessage('E001', 'User Flag'),
+            'userFlag.in' =>  ConfigUtil::getMessage('E012', 'User Flag', 'number'),
 
             'date_of_birth.date_format' => ConfigUtil::getMessage('E012', 'Date of birth', 'date (dd/MM/yyyy)'),
 

@@ -67,7 +67,7 @@ class UserService
         $name = $data['name'];
         $newPassword = $data['password'];
         $userFlag = $data['user_flg'];
-        $date_of_birth = $data['dob'] ?? null;
+        $date_of_birth = $data['date_of_birth'] ?? null;
         $phone = $data['phone'] ?? null;
         $address = $data['address'] ?? null;
 

@@ -16,15 +16,14 @@ $(document).ready(function () {
            },
            password: {
                required: true,
-               maxlength: 255,
            },
            repassword: {
                required: true,
-               maxlength: 255,
                equalTo: "#password",
            },
            user_flg: {
                required: true,
+               userFlgValidation : true,
            },
            date_of_birth: {
                dateYMD: true,
@@ -39,11 +38,9 @@ $(document).ready(function () {
            email: {
                required: "Email is required field.",
                checkValidEmailRFC: "Please enter your email address correctly.",
-               maxlength: "Email must be less than 50 characters."
            },
            name: {
                required: "Full Name is required field.",
-               maxlength: "Full Name must be less than 50 characters."
            },
            password: {
                required: "Password is required field."
@@ -60,7 +57,6 @@ $(document).ready(function () {
            },
            phone: {
                number : "Phone format is not correct. Please enter number only.",
-               maxlength: "Phone must be less than 20 characters."
            },
            address: {}
        },

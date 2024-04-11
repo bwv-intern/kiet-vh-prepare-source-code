@@ -1,7 +1,7 @@
 $( document ).ready(function() {
 
     $("#date-of-birth").datepicker({
-        dateFormat: 'dd/mm/yy'
+        dateFormat: 'yy/mm/dd',
     });
 
     $('#formSearch').validate({
@@ -9,19 +9,15 @@ $( document ).ready(function() {
             'email': {
                 checkValidEmailRFC: true
             },
-            'name': {
-                maxlength: 50
-            },
+            
             'user_flag': {
                 digits: true,
-                range: [0, 2]
             },
             'date_of_birth': {
-                dateDMY: true
+                dateYMD: true
             },
             'phone': {
                 number: true,
-                maxlength: 20
             }
         },
         messages: {
@@ -29,10 +25,10 @@ $( document ).ready(function() {
                 checkValidEmailRFC: 'Please enter your email address correctly.'
             },
             'user_flag': {
-                range: 'User flag must be between 0 and 2.'
+                digits: 'User Flag format is not correct. Please enter number only.'
             },
             'date_of_birth': {
-                dateDMY: 'Date of birth format is not correct. Please enter date (dd/MM/yyyy) only.'
+                dateYMD: 'Date of birth format is not correct. Please enter date (yyyy/MM/dd) only.'
             },
             'phone': {
                 number: 'Phone format is not correct. Please enter number only.',
