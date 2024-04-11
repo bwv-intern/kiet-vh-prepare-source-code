@@ -49,7 +49,7 @@
 
                 <div class="d-flex justify-content-end m-3 ">
                     <x-button.base label="Search" class="btn btn-secondary m-1" ></x-button.base>
-                    <x-button.clear label="Clear" screen="usr01" class="btn btn-secondary m-1"></x-button.clear>
+                    <x-button.clear label="Clear" screen="user.search" class="btn btn-secondary m-1"></x-button.clear>
                     <x-button.base  type="button" label="Export" screen="usr01" class="btn btn-secondary m-1"></x-button.base>
                     <x-button.base type="button" label="Import" screen="usr01" class="btn btn-secondary m-1"></x-button.base>
                 </div>

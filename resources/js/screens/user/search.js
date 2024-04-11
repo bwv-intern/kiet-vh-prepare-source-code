@@ -41,4 +41,31 @@ $( document ).ready(function() {
         var addUserRoute = $(this).data('add-route');
         window.location.href = addUserRoute;
     });
+
+    $('#btn-clear').on('click', function () {
+      
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            url: '/common/resetSearch',
+            type: 'get',
+            data: {
+                screen: $(this).data('screen'),
+            },
+            dataType: 'json',
+            success: function (response) {
+
+                console.log(response);
+                if(response.hasError == false){
+                    $("#formSearch input[type='text']").val('');
+                    $("#formSearch input[type='date']").val('');
+                    $("#formSearch input[type='email']").val('');
+                    $("#formSearch input[type='number']").val('');
+                   
+                    $('input[type="checkbox"]').prop('checked', true);
+                }
+            }
+        });
+    });
 });

@@ -26,8 +26,14 @@ class UserController extends Controller
      * Render user01 page
      */
     public function search(SearchRequest $request)
-    {
-        $paramSession = session()->get('user.search') ?? [];
+    {   
+        // default search
+        $paramsDefault = ["user_flg" => [
+                0 => "0",
+                1 => "1",
+                2 => "2",
+            ]];
+        $paramSession = session()->get('user.search') ?? $paramsDefault;
         $users = $this ->userService -> search($paramSession);
         $users = $this->pagination($users);
         return view('screens.user.search', compact('users', 'paramSession'));
@@ -90,11 +96,11 @@ class UserController extends Controller
             ['url' => route('admin.user.search'), 'name' => 'Users'],
             ['url' => '', 'name' => 'User edit'],
         ];
-        return view('screens.user.edit', compact('user','breadcrumbLinks'));
+        return view('screens.user.edit', compact('user', 'breadcrumbLinks'));
     }
 
     public function postEdit(EditUserRequest $request)
-    {  
+    {
         $result = $this->userService->update($request);
         if($result != null) {
             Session::flash('success', ConfigUtil::getMessage('I013'));
