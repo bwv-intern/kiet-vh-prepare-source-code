@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Models\User;
 use Carbon\Carbon;
+use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserRepository extends BaseRepository
@@ -123,5 +125,38 @@ class UserRepository extends BaseRepository
 
     public function save($id = null, $params, $isFindAll = false) {
         return parent::save($id, $params, $isFindAll);
+    }
+
+    public function findByEmail($email) {
+        try {
+            $user = User::where('email', $email)->first();
+
+            return $user;
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+
+    public function editMany($users) {
+        DB::beginTransaction();
+        try {
+            foreach ($users as $user) {
+                $id = $user['id'];
+                unset($user['id']);
+                DB::table('users')->where('id', $id)->update($user);
+            }
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
+    }
+
+    public function insertMany($arrData) {
+        DB::beginTransaction();
+        try {
+            DB::table('users')->insert($arrData);
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
     }
 }

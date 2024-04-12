@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Libs\ConfigUtil;
+use App\Libs\DateUtil;
 use App\Repositories\UserRepository;
 use App\Utils\MessageUtil;
 use App\Utils\ValidateUtil;
@@ -168,7 +170,7 @@ class UserService
 
             // check email exist in savedUserEmail
             if (in_array($row['email'], $savedUserEmails)) {
-                $errorList[] = "Row {$rowIndex} :" . MessageUtil::getMessage('E009', 'Email');
+                $errorList[] = "Row {$rowIndex} :" . ConfigUtil::getMessage('E009', 'Email');
             }
 
             // validate row
@@ -177,18 +179,18 @@ class UserService
             if (count($errors) > 0) {
                 $errorList[] = $errors;
             } else {
-                $row['date_of_birth'] = ValidateUtil::convertDateFormat($row['date_of_birth']);
-
+                $row['date_of_birth'] = DateUtil::convertDateFormat($row['date_of_birth']);
+                $row['password'] = Hash::make($row['password']);
                 if ($row['id'] === '') {
                     unset($row['id']);
-                    $row['password'] = Hash::make($row['password']);
                     $row['created_by'] = Auth::id();
                     $row['created_at'] = now();
                     $savedUsers[] = $row;
                     // save email
                     $savedUserEmails[] = $row['email'];
                 } else {
-
+                    $row['updated_at'] = now();
+                    $row['updated_by'] = Auth::id();
                     $editedUsers[] = $row;
                 }
             }
@@ -202,11 +204,11 @@ class UserService
         }
 
         if (count($savedUsers) > 0) {
-            $this->insertMany($savedUsers);
+           $this -> userRepository -> insertMany($savedUsers);
         }
 
         if (count($editedUsers) > 0) {
-            $this->editMany($editedUsers);
+            $this -> userRepository -> editMany($editedUsers);
         }
 
         return [
@@ -223,7 +225,7 @@ class UserService
     public function getHeaderFromConfigsYAML()
     {
         // Get Header of YAML
-        $yamlContents = Yaml::parse(file_get_contents(base_path('/config/constants/configImportUser.yaml')));
+        $yamlContents = Yaml::parse(file_get_contents(base_path('/app/Constant/Config/configImportUser.yaml')));
         $headerConfig = [];
         foreach ($yamlContents['user_import_csv_configs'] as $key => $value) {
             $headerConfig[] = $value['header'];
@@ -270,7 +272,7 @@ class UserService
      */
     public function getValidation()
     {
-        $yamlContents = Yaml::parse(file_get_contents(base_path('/config/constants/configImportUser.yaml')));
+        $yamlContents = Yaml::parse(file_get_contents(base_path('/app/Constant/Config/configImportUser.yaml')));
         $rules = [];
         foreach ($yamlContents['user_import_csv_configs'] as $key => $value) {
             $validConfig = $value['validate'];
@@ -301,16 +303,16 @@ class UserService
 
             // Check unique email address
             // 'unique:users'
-            $existingUserWithEmail = $this->findByEmail($email);
+            $existingUserWithEmail = $this->userRepository -> findByEmail($email);
             if ($existingUserWithEmail && ($id == '' || $existingUserWithEmail->id != intval($id))) {
-                $validator->errors()->add('email', "Row {$rowIndex} :" . MessageUtil::getMessage('E009', 'Email'));
+                $validator->errors()->add('email', "Row {$rowIndex} :" . ConfigUtil::getMessage('E009', 'Email'));
             }
 
             // Check exist user in case editing
             if ($id != '') {
                 $existingUserWithId = $this->find($id);
                 if (! $existingUserWithId) {
-                    $validator->errors()->add('id', "Row {$rowIndex} :" . MessageUtil::getMessage('E015', 'Id'));
+                    $validator->errors()->add('id', "Row {$rowIndex} :" . ConfigUtil::getMessage('E015', 'Id'));
                 }
             }
         });
@@ -325,24 +327,24 @@ class UserService
     public function messages($rowIndex)
     {
         $messages = [
-            'id.max' => "Row {$rowIndex} :" . MessageUtil::getMessage('E002', 'Full Name', '50', ':count'),
+            'id.max' => "Row {$rowIndex} :" . ConfigUtil::getMessage('E002', 'Full Name', '50', ':count'),
 
-            'email.required' => "Row {$rowIndex} : " . MessageUtil::getMessage('E001', 'Email'),
-            'email.email' => "Row {$rowIndex} : " . MessageUtil::getMessage('E004'),
-            'email.max' => "Row {$rowIndex} : " . MessageUtil::getMessage('E002', 'Email', '50', ':count'),
-            'email.unique' => "Row {$rowIndex} : " . MessageUtil::getMessage('E009', 'Email'),
+            'email.required' => "Row {$rowIndex} : " . ConfigUtil::getMessage('E001', 'Email'),
+            'email.email' => "Row {$rowIndex} : " . ConfigUtil::getMessage('E004'),
+            'email.max' => "Row {$rowIndex} : " . ConfigUtil::getMessage('E002', 'Email', '50', ':count'),
+            'email.unique' => "Row {$rowIndex} : " . ConfigUtil::getMessage('E009', 'Email'),
 
-            'name.required' => "Row {$rowIndex} : " . MessageUtil::getMessage('E001', 'Name'),
-            'name.max' => "Row {$rowIndex} : " . MessageUtil::getMessage('E002', 'Name', '50', ':count'),
+            'name.required' => "Row {$rowIndex} : " . ConfigUtil::getMessage('E001', 'Name'),
+            'name.max' => "Row {$rowIndex} : " . ConfigUtil::getMessage('E002', 'Name', '50', ':count'),
 
-            'password.required' => "Row {$rowIndex} : " . MessageUtil::getMessage('E001', 'Password'),
-            'password.max' => "Row {$rowIndex} : " . MessageUtil::getMessage('E002', 'Password', '255', ':count'),
+            'password.required' => "Row {$rowIndex} : " . ConfigUtil::getMessage('E001', 'Password'),
+            'password.max' => "Row {$rowIndex} : " . ConfigUtil::getMessage('E002', 'Password', '255', ':count'),
 
-            'user_flg.required' => "Row {$rowIndex} : " . MessageUtil::getMessage('E001', 'User Flag'),
-            'user_flg.numeric' => "Row {$rowIndex} : " . MessageUtil::getMessage('E012', 'User flag', 'number'),
-            'user_flg.in' => "Row {$rowIndex} : " . MessageUtil::getMessage('E012', 'User flag', 'number'),
+            'user_flg.required' => "Row {$rowIndex} : " . ConfigUtil::getMessage('E001', 'User Flag'),
+            'user_flg.numeric' => "Row {$rowIndex} : " . ConfigUtil::getMessage('E012', 'User flag', 'number'),
+            'user_flg.in' => "Row {$rowIndex} : " . ConfigUtil::getMessage('E012', 'User flag', 'number'),
 
-            'date_of_birth.date_format' => "Row {$rowIndex} : " . MessageUtil::getMessage('E012', 'Date of birth', 'date'),
+            'date_of_birth.date_format' => "Row {$rowIndex} : " . ConfigUtil::getMessage('E012', 'Date of birth', 'date'),
         ];
 
         return $messages;
@@ -355,7 +357,7 @@ class UserService
      */
     public function getKeyYaml()
     {
-        $yamlContents = Yaml::parse(file_get_contents(base_path('/config/constants/configImportUser.yaml')));
+        $yamlContents = Yaml::parse(file_get_contents(base_path('/app/Constant/Config/configImportUser.yaml')));
         $headerConfig = [];
         foreach ($yamlContents['user_import_csv_configs'] as $key => $value) {
             $headerConfig[] = $key;

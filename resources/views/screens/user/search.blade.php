@@ -51,7 +51,7 @@
                     <x-button.base label="Search" class="btn btn-secondary m-1" ></x-button.base>
                     <x-button.clear label="Clear" screen="user.search" class="btn btn-secondary m-1"></x-button.clear>
                     <x-button.base  type="submit" name="btnExport" label="Export" screen="usr01" formaction="{{ route('admin.user.search') }}" class="btn btn-secondary m-1"></x-button.base>
-                    <x-button.base type="button" label="Import" screen="usr01" class="btn btn-secondary m-1"></x-button.base>
+                    <x-button.base type="button" label="Import" class="btn btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#importCSVModal"></x-button.base>
                 </div>
             </form>
         </div>
@@ -123,6 +123,33 @@
                 </div>
             </div>
 
+        </div>
+          <!-- Modal -->
+          <div class="modal fade" id="importCSVModal" tabindex="-1" aria-labelledby="importCSVModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="importCSVModalLabel">Import CSV</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{route('admin.user.import')}}" method="post" enctype="multipart/form-data"
+                          name="formImportCSV" id="formImportCSV">
+                        @csrf
+                        <div class="modal-body">
+
+                            <div class="mb-3">
+                                <label for="csvFile" class="form-label">Choose your CSV File</label>
+                                <input class="form-control" type="file" id="csvFile" name="csvFile">
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Import</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
         @push('scripts')
             @vite(['resources/js/screens/user/search.js'], 'build')

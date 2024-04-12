@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\User\{AddUserRequest, EditUserRequest, SearchRequest};
+use App\Http\Requests\User\{AddUserRequest, EditUserRequest, ImportCsvRequest, SearchRequest};
 use App\Libs\ConfigUtil;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
@@ -179,5 +179,32 @@ class UserController extends Controller
         $response->headers->setCookie($cookie);
 
         return $response;
+    }
+
+    /**
+     * Handles the import of a CSV file.
+     *
+     * @param ImportCsvRequest $request The request containing the CSV file.
+     * @return \Illuminate\Http\RedirectResponse The redirect response after importing the CSV file.
+     */
+    public function importCsv(ImportCsvRequest $request) {
+        if ($request->hasFile('csvFile')) {
+            $csvFile = $request->file('csvFile');
+
+            $tempPath = $csvFile->getRealPath();
+
+            $result = $this->userService->importCsv($tempPath);
+
+            switch ($result['message']) {
+                case 'WRONG_HEADER':
+                    return redirect()->back()->withErrors(ConfigUtil::getMessage('E008'))->withInput();
+                case 'ERROR':
+                    return redirect()->back()->withErrors($result['data'])->withInput();
+                case 'SUCCESS':
+                    return redirect('/admin/user')->with('success', ConfigUtil::getMessage('I013'));
+                default:
+                    return redirect()->back();
+            }
+        }
     }
 }

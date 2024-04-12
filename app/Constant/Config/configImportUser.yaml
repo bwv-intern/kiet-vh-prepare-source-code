@@ -1,0 +1,33 @@
+user_import_csv_configs:
+  id:
+    header: User Id
+    validate:
+      - nullable
+      - max:50
+  email:
+    header: Email
+    validate:
+      - email
+      - required
+      - max:50
+      - unique: users,email
+  password:
+    header: Password
+    validate:
+      - required
+      - max:255
+  user_flg:
+    header: User Flag
+    validate:
+      - required
+      - numeric
+      - in:0,1,2
+  date_of_birth:
+    header: Date Of Birth
+    validate:
+      - date_format:d/m/Y
+  name:
+    header: Name
+    validate:
+      - required
+      - max:50

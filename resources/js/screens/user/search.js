@@ -40,7 +40,23 @@ $( document ).ready(function() {
         },
     });
 
-
+    $('#formImportCSV').validate({
+        rules: {
+            'csvFile': {
+                required: true,
+                filesize: 5242880,
+                fileExtension: 'csv'
+            }
+        },
+        messages: {
+            'csvFile': {
+                required: 'File is required field.',
+                filesize: 'The file size limit 5MB has been exceeded.',
+                fileExtension: 'File extension is incorrect. Please use csv.'
+            }
+        },
+    });
+    
     $("#addButton").on("click", function () {
         var addUserRoute = $(this).data('add-route');
         window.location.href = addUserRoute;

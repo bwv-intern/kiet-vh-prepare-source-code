@@ -39,4 +39,16 @@ class DateUtil
         $date = Carbon::createFromFormat($format, $dateStr);
         return $date && ($date->format($format) === $dateStr);
     }
+
+    /**
+     * convert date to dd/mm/yyyy format
+     * @param string $dateStr
+     * 
+     * @return date formated
+     */
+    public static function convertDateFormat($date) {
+        $carbonDate = Carbon::createFromFormat('d/m/Y', $date);
+
+        return $carbonDate->format('Y/m/d');
+    }
 }
