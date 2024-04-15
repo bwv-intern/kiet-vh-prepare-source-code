@@ -1,14 +1,16 @@
 @props([
-    'label' => 'クリア',
+    'label' => '',
     'screen' => '',
-    'id' =>'btn-clear'
+    'id' =>'btn-clear',
+    'class'=> ''
 ])
 
 <button
-	type="button" class="btn btn-round btn-danger btn-clear-search"
+	type="button"
 	data-url="{{ route('common.resetSearch') }}"
     data-screen="{{ $screen }}"
     id="{{ $id }}"
+    class="{{$class}}"
 >
     {{ $label }}
 </button>

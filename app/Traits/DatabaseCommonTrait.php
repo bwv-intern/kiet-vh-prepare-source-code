@@ -7,12 +7,11 @@ use Illuminate\Database\Schema\Blueprint;
 trait DatabaseCommonTrait {
     public function commonColumns(Blueprint $table) {
         $table->tinyInteger('del_flg')->default(0);
-        $table->datetime('created_at');
-        $table->unsignedBigInteger('created_by');
-        $table->datetime('updated_at')->nullable();
-        $table->unsignedBigInteger('updated_by')->nullable();
-        $table->datetime('deleted_at')->nullable();
-        $table->unsignedBigInteger('deleted_by')->nullable();
+        $table->foreignId('created_by')->nullable()->constrained('users');
+        $table->foreignId('updated_by')->nullable()->constrained('users');
+        $table->foreignId('deleted_by')->nullable()->constrained('users');
+        $table->timestamps();
+        $table->softDeletes();
     }
 
     public function commonCharset(Blueprint $table) {

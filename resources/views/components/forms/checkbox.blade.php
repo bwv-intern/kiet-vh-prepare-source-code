@@ -18,7 +18,8 @@
 @foreach($options as $key => $value)
     <label class="{{ 'mr-5' . $attributes['classCheckbox'] }}">
         <input
-            {{ $attributes->merge([
+            {{
+                $attributes->merge([
                 'type' => $type,
                 'name' => $isArray ? $name . '[]' : $name,
                 'id' => $isArray ? $id . '-' .$key : $id,

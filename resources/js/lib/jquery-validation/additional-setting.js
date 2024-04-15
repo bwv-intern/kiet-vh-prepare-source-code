@@ -42,19 +42,19 @@ if ($.fn.timepicker) {
 $.extend(jQuery.validator, {
     messages: {
         required: function (p, e) {
-            return $.validator.format('{0}は必須項目です。', [
+            return $.validator.format('{0} is required field.', [
                 $(e).data('label'),
             ]);
         },
         maxlength: function (p, e) {
             return $.validator.format(
-                '{0}は「{1}」文字以下で入力してください。（現在{2}文字）',
+                '{0} must be less than {1} characters. (Currently {2} characters)',
                 [$(e).data('label'), p, $(e).val().length]
             );
         },
         minlength: function (p, e) {
             return $.validator.format(
-                '{0}は「{1}」文字以上で入力してください。（現在{2}文字）',
+                '{0} must be more than {1} characters. (Currently {2} characters)',
                 [$(e).data('label'), p, $(e).val().length]
             );
         },
@@ -87,14 +87,14 @@ $.extend(jQuery.validator, {
             ]);
         },
         checkValidEmailRFC: function (p, e) {
-            return $.validator.format('メールアドレスを正しく入力してください。');
+            return $.validator.format('Please enter your email address correctly.');
         },
         checkCharacterlatin: function (p, e) {
             return $.validator.format('{0}は半角英数で入力してください。', [
                 $(e).data('label'),
             ]);
         },
-        passwordEqualTo: $.validator.format('新しいパスワードと確認用パスワードが一致しません。'),
+        passwordEqualTo: $.validator.format('Re-password is not the same as Password.'),
         checkKatakana2Byte: function (p, e) {
             return $.validator.format('{0}は全角カナで入力してください。', [
                 $(e).data('label'),
@@ -130,6 +130,18 @@ $.validator.setDefaults({
             error.insertAfter(element);
         }
     },
+    invalidHandler: function (event, validator) {
+        var errors = validator.numberOfInvalids();
+        if (errors) {
+            var firstError = $(validator.errorList[0].element);
+            firstError.focus();
+            $('html, body').animate({
+                scrollTop: firstError.offset().top
+            }, 500);
+        }
+    },
+
+    
 });
 
 //=================================================//

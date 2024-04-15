@@ -35,7 +35,8 @@ abstract class BaseRepository
      * @param string|null $loggingChannel
      * @return object|bool
      */
-    public function findById($id, $isFindAll = false) {
+    public function findById($id, $isFindAll = false)
+    {
         try {
             $query = $this->model->where($this->model->getKeyName(), $id);
             if (!$isFindAll) {
@@ -63,11 +64,11 @@ abstract class BaseRepository
             if ($id) {
                 $result = $this->findById($id, $isFindAll);
                 $result->fill($params);
-                $result = $result->save($result);
+                $result = $result->save();
             } else {
                 $result = $this->model->create($params);
             }
-            if (!$result){
+            if (!$result) {
                 DB::rollBack();
             }
             DB::commit();
@@ -100,11 +101,10 @@ abstract class BaseRepository
                 if ($id) {
                     $model = $this->model->find($id);
                     $model = $model->update($attribute);
-                }
-                else {
+                } else {
                     $model = $this->model->save($attribute);
                 }
-                if (!$model){
+                if (!$model) {
                     DB::rollBack();
                 }
                 $models[] = $model;

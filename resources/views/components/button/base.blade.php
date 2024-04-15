@@ -1,9 +1,11 @@
 @props([
     'type' => 'submit',
     'label',
-    'isDisabled' => false
+    'isDisabled' => false,
+    'id' =>'',
+    'class' =>'',
 ])
 
-<button {{ $attributes->merge(['type' => $type, 'class' => 'btn btn-round btn-primary', 'disabled' => $isDisabled]) }}>
+<button {{ $attributes->merge(['type' => $type, 'class' => $class, 'disabled' => $isDisabled,'id'=>$id]) }}>
     {{ $label }}
 </button>

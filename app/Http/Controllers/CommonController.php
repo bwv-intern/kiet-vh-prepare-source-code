@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Http\Request;
 
 class CommonController extends Controller
 {
     /**
      * Reset search
-     * 
+     *
      * @param Request $request
      */
     public function resetSearch(Request $request) {
@@ -18,10 +18,11 @@ class CommonController extends Controller
             if ($request->session()->has($screenSession)) {
                 $request->session()->forget($screenSession);
             }
+
             return response()->json([
                 'hasError' => false,
             ]);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return response()->json([
                 'hasError' => true,
             ]);

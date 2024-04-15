@@ -14,22 +14,9 @@ class AuthService
         $this->userRepository = $userRepository;
     }
 
-    /**
-     * Handle login
-     *
-     * @param array $credentials
-     * @return boolean
-     */
+    
     public function handleLogin(array $credentials)
     {
-        $user = $this->userRepository->getUserLogin($credentials);
-        if (!$user) {
-            return false;
-        }
-        if (Auth::loginUsingId($user->id)) {
-            return true;
-        }
-
-        return false;
+        return  $user = $this->userRepository->getUserLogin($credentials);
     }
 }

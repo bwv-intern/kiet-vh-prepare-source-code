@@ -1,0 +1,1 @@
+$(document).ready(function(){var a=window.location.pathname,t=window.location.origin;$(".nav-link").each(function(){var n=$(this).attr("href"),r=n.replace(t,"");a.indexOf(r)!=-1&&$(this).addClass("active")})});
