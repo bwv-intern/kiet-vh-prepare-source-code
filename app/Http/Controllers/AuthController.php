@@ -56,7 +56,7 @@ class AuthController extends Controller
         session()->invalidate();
 
         // fix back event from browser
-        return redirect(URL::previous());
+        return redirect('/admin/login');
     }
 
     private function handleInvalidCredentials($credentials) {
